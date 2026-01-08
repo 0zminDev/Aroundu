@@ -1,0 +1,62 @@
+# ===========================
+# VISUAL STUDIO & .NET
+# ===========================
+# Ignore the .vs folder (This fixes your permission error)
+.vs/
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# User-specific config (Avoid committing secrets)
+appsettings.Development.json
+appsettings.Local.json
+
+# ===========================
+# ANGULAR & NODE.JS
+# ===========================
+# Dependencies
+node_modules/
+
+# Build output (Production build)
+/dist/
+/out-tsc/
+
+# Angular cache
+.angular/
+.sass-cache/
+connect.lock
+coverage/
+libpeerconnection.log
+
+# Logs
+npm-debug.log
+yarn-error.log
+testem.log
+
+# Environment variables
+.env
+
+# ===========================
+# EDITOR SETTINGS
+# ===========================
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+# (Note: You may want to commit launch/tasks.json, but ignore workspaceStorage)
+
+# OS generated files
+.DS_Store
+Thumbs.db

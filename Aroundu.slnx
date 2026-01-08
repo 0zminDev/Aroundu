@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/AuthService/">
+    <Project Path="Aroundu.Auth.Service.Api/Aroundu.Auth.Service.Api.csproj" />
+    <Project Path="Aroundu.Auth.Service.Application/Aroundu.Auth.Service.Application.csproj" />
+    <Project Path="Aroundu.Auth.Service.Domain/Aroundu.Auth.Service.Domain.csproj" />
+    <Project Path="Aroundu.Auth.Service.Infrastructure/Aroundu.Auth.Service.Infrastructure.csproj" />
+    <Project Path="Aroundu.Auth.Service.SharedKernel/Aroundu.Auth.Service.SharedKernel.csproj" />
+    <Project Path="Aroundu.Auth.Service.Tests/Aroundu.Auth.Service.Tests.csproj" />
+  </Folder>
+  <Folder Name="/EventsService/">
+    <Project Path="Aroundu.Events.Service.Api/Aroundu.Events.Service.Api.csproj" />
+    <Project Path="Aroundu.Events.Service.Application/Aroundu.Events.Service.Application.csproj" />
+    <Project Path="Aroundu.Events.Service.Domain/Aroundu.Events.Service.Domain.csproj" />
+    <Project Path="Aroundu.Events.Service.Infrastructure/Aroundu.Events.Service.Infrastructure.csproj" />
+    <Project Path="Aroundu.Events.Service.SharedKernel/Aroundu.Events.Service.SharedKernel.csproj" />
+    <Project Path="Aroundu.Events.Service.Tests/Aroundu.Events.Service.Tests.csproj" />
+  </Folder>
+  <Project Path="Aroundu.Api.Gateway/Aroundu.Api.Gateway.csproj" />
+  <Project Path="Aroundu.AppHost/Aroundu.AppHost.csproj" />
+  <Project Path="Aroundu.ServiceDefaults/Aroundu.ServiceDefaults.csproj" />
+  <Project Path="Aroundu.SharedKernel/Aroundu.SharedKernel.csproj" />
+</Solution>
