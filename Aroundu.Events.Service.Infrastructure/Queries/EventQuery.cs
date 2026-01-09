@@ -1,15 +1,17 @@
 ﻿using Aroundu.Events.Service.Application.Queries;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Aroundu.Events.Service.Domain.Entity;
+using Aroundu.Events.Service.Infrastructure.EFCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aroundu.Events.Service.Infrastructure.Queries
 {
-    public class EventQuery : IEventQuery
+    public class EventQuery : BaseQuery, IEventQuery
     {
+        public EventQuery(EventsDbContext context) : base(context) {}
+
         public async Task<int> GetEventCountAsync()
         {
-            return await Task.FromResult(42); // Example static count
+            return await QueryFor<Event>().CountAsync();
         }
     }
 }

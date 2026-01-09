@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using MediatR;
+using Aroundu.Events.Service.Application.Commands;
 
 namespace Aroundu.Events.Service.Api.Controllers
 {
@@ -10,9 +12,11 @@ namespace Aroundu.Events.Service.Api.Controllers
     public class Events : ControllerBase
     {
         private readonly IEventQuery eventsQuery;
-        public Events(IEventQuery eventsQuery)
+        private readonly IMediator mediator;
+        public Events(IEventQuery eventsQuery, IMediator mediator)
         {
             this.eventsQuery = eventsQuery;
+            this.mediator = mediator;
         }
 
         [HttpGet]
@@ -26,6 +30,14 @@ namespace Aroundu.Events.Service.Api.Controllers
         {
             int eventCount = await eventsQuery.GetEventCountAsync();
             return Ok(new { EventCount = eventCount });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent([FromBody] CreateEventCommand command)
+        {
+            var result = await mediator.Send(command);
+
+            return CreatedAtAction(nameof(Get), new { id = 1 }, result);
         }
     }
 }

@@ -9,10 +9,13 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
 
-        builder.Services.AddControllers();
-        builder.Services.AddOpenApi();
+        builder.Services.AddControllers(); 
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
         builder.Services.AddReverseProxy()
-            .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+            .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+            .AddServiceDiscoveryDestinationResolver();
+
         builder.Services.AddMassTransit(mt =>
         {
             mt.UsingRabbitMq((context, conf) =>
@@ -28,7 +31,12 @@ public class Program
 
         if (app.Environment.IsDevelopment())
         {
-            app.MapOpenApi();
+            app.UseSwagger(); 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gateway API");
+                c.SwaggerEndpoint("/swagger-events/swagger/v1/swagger.json", "Events Service");
+            });
         }
 
         app.UseHttpsRedirection();
