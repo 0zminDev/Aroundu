@@ -18,13 +18,15 @@ sql.WithEndpoint("tcp", endpoint =>
 });
 
 var eventsDb = sql.AddDatabase("events-db");
+var authDb = sql.AddDatabase("auth-db");
 
 var eventsService = builder.AddProject<Projects.Aroundu_Events_Service_Api>("aroundu-events-service-api")
     .WithReference(messaging)
     .WithReference(eventsDb);
 
 var authService = builder.AddProject<Projects.Aroundu_Auth_Service_Api>("aroundu-auth-service-api")
-    .WithReference(messaging);
+    .WithReference(messaging)
+    .WithReference(eventsDb);
 
 var gateway = builder.AddProject<Projects.Aroundu_Api_Gateway>("aroundu-api-gateway")
     .WithReference(messaging)

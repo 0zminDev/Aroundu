@@ -1,8 +1,5 @@
 ﻿using Aroundu.Events.Service.Application.Queries;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using MediatR;
 using Aroundu.Events.Service.Application.Commands;
 using Aroundu.SharedKernel.Interfaces.Busses;
 
@@ -14,6 +11,7 @@ namespace Aroundu.Events.Service.Api.Controllers
     {
         private readonly IEventQuery eventsQuery;
         private readonly ICommandBus commandBus;
+
         public Events(IEventQuery eventsQuery, ICommandBus commandBus)
         {
             this.eventsQuery = eventsQuery;
@@ -29,7 +27,7 @@ namespace Aroundu.Events.Service.Api.Controllers
         [HttpGet("count")]
         public async Task<IActionResult> GetEventCount()
         {
-            int eventCount = await eventsQuery.GetEventCountAsync();
+            int eventCount = await eventsQuery.GetEventsCountAsync();
             return Ok(new { EventCount = eventCount });
         }
 
