@@ -9,6 +9,16 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngular", policy =>
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
+        });
+
         builder.Services.AddControllers(); 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -40,6 +50,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseCors("AllowAngular");
         app.UseAuthorization();
         app.MapReverseProxy();
         app.MapControllers();
