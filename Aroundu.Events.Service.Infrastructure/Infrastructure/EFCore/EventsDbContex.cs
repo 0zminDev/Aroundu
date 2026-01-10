@@ -1,4 +1,5 @@
 ﻿using Aroundu.Events.Service.Domain.Entity;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,11 +12,15 @@ namespace Aroundu.Events.Service.Infrastructure.EFCore
     {
         public EventsDbContext(DbContextOptions<EventsDbContext> options) : base(options) { }
 
-        public DbSet<Event> Events { get; set; }
+        public DbSet<Aroundu.Events.Service.Domain.Entity.Event> Events { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Event>().HasKey(e => e.Id);
+            modelBuilder.Entity<Aroundu.Events.Service.Domain.Entity.Event>().HasKey(e => e.Id);
+
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using MediatR;
 using Aroundu.Events.Service.Application.Commands;
+using Aroundu.SharedKernel.Interfaces.Busses;
 
 namespace Aroundu.Events.Service.Api.Controllers
 {
@@ -12,11 +13,11 @@ namespace Aroundu.Events.Service.Api.Controllers
     public class Events : ControllerBase
     {
         private readonly IEventQuery eventsQuery;
-        private readonly IMediator mediator;
-        public Events(IEventQuery eventsQuery, IMediator mediator)
+        private readonly ICommandBus commandBus;
+        public Events(IEventQuery eventsQuery, ICommandBus commandBus)
         {
             this.eventsQuery = eventsQuery;
-            this.mediator = mediator;
+            this.commandBus = commandBus;
         }
 
         [HttpGet]
@@ -35,7 +36,7 @@ namespace Aroundu.Events.Service.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEvent([FromBody] CreateEventCommand command)
         {
-            var result = await mediator.Send(command);
+            var result = await commandBus.SendAsync(command);
 
             return CreatedAtAction(nameof(Get), new { id = 1 }, result);
         }

@@ -1,10 +1,21 @@
+using Aspire.Hosting;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var messaging = builder.AddRabbitMQ("messaging");
 
-var sql = builder.AddSqlServer("sql-server")
-                 .WithDataVolume()
-                 .WithLifetime(ContainerLifetime.Persistent);
+var password = builder.AddParameter("sql-password", secret: true);
+
+var sql = builder.AddSqlServer("sql-server", password)
+    .WithDataVolume()
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithEnvironment("ACCEPT_EULA", "Y");
+
+sql.WithEndpoint("tcp", endpoint =>
+{
+    endpoint.Port = 14333;
+    endpoint.IsProxied = false;
+});
 
 var eventsDb = sql.AddDatabase("events-db");
 

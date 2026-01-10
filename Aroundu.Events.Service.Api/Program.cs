@@ -17,6 +17,21 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddMassTransit(mt =>
         {
+            mt.AddEntityFrameworkOutbox<EventsDbContext>(o =>
+            {
+                o.UseSqlServer(); 
+                o.UseBusOutbox();
+
+                // Uncomment the following lines to disable the delivery service if needed (for testing)
+                //o.UseBusOutbox(outboxConfig =>
+                //    {
+                //        outboxConfig.DisableDeliveryService();
+                //    });
+
+                o.DuplicateDetectionWindow = TimeSpan.FromMinutes(30);
+                o.QueryDelay = TimeSpan.FromSeconds(10);
+            });
+
             mt.UsingRabbitMq((context, conf) =>
             {
                 conf.Host(builder.Configuration.GetConnectionString("messaging"));

@@ -1,4 +1,5 @@
-﻿using Aroundu.Events.Service.Application.Repositories;
+﻿using Aroundu.Events.Service.Application.IntegrationEvents;
+using Aroundu.Events.Service.Application.Repositories;
 using Aroundu.Events.Service.Domain.Entity;
 using Aroundu.SharedKernel.Interfaces;
 using MediatR;
@@ -16,10 +17,12 @@ namespace Aroundu.Events.Service.Application.Commands
     public class CreateEventCommandHandler : ICommandHandler<CreateEventCommand, int>
     {
         private readonly IEventRepository repo;
+        private readonly IServiceEventBus eventBus;
 
-        public CreateEventCommandHandler(IEventRepository repo)
+        public CreateEventCommandHandler(IEventRepository repo, IServiceEventBus eventBus)
         {
             this.repo = repo;
+            this.eventBus = eventBus;
         }
 
         public async Task<int> Handle(CreateEventCommand request, CancellationToken ct)
@@ -29,7 +32,9 @@ namespace Aroundu.Events.Service.Application.Commands
             };
 
             await repo.AddAsync(entity);
+            await eventBus.PublishAsync(new EventCreated(entity.Id, entity.Name), ct);
             await repo.SaveAsync(ct);
+
 
             return entity.Id;
         }
