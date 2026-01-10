@@ -1,5 +1,6 @@
-﻿using Aroundu.SharedKernel.Interfaces.Busses;
-using Microsoft.AspNetCore.Http;
+﻿using Aroundu.Auth.Service.Application.Commands;
+using Aroundu.Auth.Service.Application.Queries;
+using Aroundu.SharedKernel.Interfaces.Busses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Aroundu.Auth.Service.Api.Controllers
@@ -8,12 +9,12 @@ namespace Aroundu.Auth.Service.Api.Controllers
     [ApiController]
     public class Auth : ControllerBase
     {
-        private readonly IUsersQuery usersQuery;
+        private readonly IUserQuery userQuery;
         private readonly ICommandBus commandBus;
 
-        public Auth(IUsersQuery authQuery, ICommandBus commandBus)
+        public Auth(IUserQuery userQuery, ICommandBus commandBus)
         {
-            this.usersQuery = authQuery;
+            this.userQuery = userQuery;
             this.commandBus = commandBus;
         }
 
@@ -26,7 +27,7 @@ namespace Aroundu.Auth.Service.Api.Controllers
         [HttpGet("count")]
         public async Task<IActionResult> GetUsersCount()
         {
-            int eventCount = await usersQuery.GetUsersCountAsync();
+            int eventCount = await userQuery.GetUsersCountAsync();
             return Ok(new { EventCount = eventCount });
         }
 

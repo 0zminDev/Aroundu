@@ -2,7 +2,7 @@
 using Aroundu.SharedKernel.Interfaces.Busses;
 using MediatR;
 
-namespace Aroundu.Events.Service.Infrastructure.Infrastructure.MediatR
+namespace Aroundu.Auth.Service.Infrastructure.Infrastructure.MediatR
 {
     public class CommandBus : ICommandBus
     {

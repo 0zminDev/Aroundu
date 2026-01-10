@@ -16,24 +16,25 @@ namespace Aroundu.Events.Service.Application.Commands
 
     public class CreateEventCommandHandler : ICommandHandler<CreateEventCommand, int>
     {
-        private readonly IEventRepository repo;
+        private readonly IEventRepository eventRepository;
         private readonly IServiceEventBus eventBus;
 
         public CreateEventCommandHandler(IEventRepository repo, IServiceEventBus eventBus)
         {
-            this.repo = repo;
+            this.eventRepository = repo;
             this.eventBus = eventBus;
         }
 
         public async Task<int> Handle(CreateEventCommand request, CancellationToken ct)
         {
-            var entity = new Event { 
+            var entity = new Event 
+            { 
                 Name = request.Name
             };
 
-            await repo.AddAsync(entity);
-            await eventBus.PublishAsync(new EventCreated(entity.Id, entity.Name), ct);
-            await repo.SaveAsync(ct);
+            await eventRepository.AddAsync(entity);
+            await eventBus.PublishAsync(new EventCreatedEvent(entity.Id, entity.Name), ct);
+            await eventRepository.SaveAsync(ct);
 
 
             return entity.Id;

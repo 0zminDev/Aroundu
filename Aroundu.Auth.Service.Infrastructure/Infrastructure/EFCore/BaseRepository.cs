@@ -1,16 +1,17 @@
-﻿using Aroundu.SharedKernel.Interfaces;
+﻿using Aroundu.Auth.Service.Infrastructure.EFCore;
+using Aroundu.SharedKernel.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Aroundu.Events.Service.Infrastructure.EFCore
+namespace Aroundu.Auth.Service.Infrastructure.Infrastructure.EFCore
 {
     public abstract class BaseRepository : IRepository
     {
-        protected readonly EventsDbContext context;
+        protected readonly AuthDbContext context;
 
-        protected BaseRepository(EventsDbContext context)
+        protected BaseRepository(AuthDbContext context)
         {
             this.context = context;
         }

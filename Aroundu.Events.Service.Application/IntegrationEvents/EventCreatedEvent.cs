@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Aroundu.Events.Service.Application.IntegrationEvents
 {
-    public class EventCreated : IIntegrationEvent
+    public class EventCreatedEvent : IIntegrationEvent
     {
         public int EventId { get; set; }
         public string Name { get; set; }
 
-        public EventCreated(int eventId, string name)
+        public EventCreatedEvent(int eventId, string name)
         {
             EventId = eventId;
             Name = name;
