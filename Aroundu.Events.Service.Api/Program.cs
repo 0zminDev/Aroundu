@@ -65,7 +65,16 @@ public class Program
             .AddClasses(classes => classes.AssignableTo<IDependency>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-        builder.AddSqlServerDbContext<EventsDbContext>("events-db");
+        builder.AddSqlServerDbContext<EventsDbContext>("events-db", configureDbContextOptions: options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("events-db"), sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null);
+            });
+        });
         builder.Services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly);
@@ -79,6 +88,15 @@ public class Program
             {
                 var context = scope.ServiceProvider.GetRequiredService<EventsDbContext>();
                 context.Database.Migrate();
+                try
+                {
+                    context.Database.ExecuteSqlRaw(
+                        "ALTER DATABASE [events-db] SET READ_COMMITTED_SNAPSHOT ON WITH ROLLBACK IMMEDIATE");
+                }
+                catch (Exception)
+                {
+                    // NOTE: Ignore if already enabled
+                }
             }
             catch (Exception ex)
             {
