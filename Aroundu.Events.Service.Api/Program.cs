@@ -1,7 +1,10 @@
 using Aroundu.Events.Service.Infrastructure.EFCore;
+using Aroundu.Events.Service.Infrastructure.Infrastructure.MassTransit;
 using Aroundu.SharedKernel.Interfaces;
+using Aroundu.SharedKernel.Interfaces.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Aroundu.Events.Service.Api;
 
@@ -17,20 +20,36 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddMassTransit(mt =>
         {
+            var appAssembly = typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly;
+
+            var handlerTypes = appAssembly.GetTypes()
+                .Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IIntegrationEventHandler<>)))
+                .ToList();
+
+            foreach (var handlerType in handlerTypes)
+            {
+                var eventType = handlerType.GetInterfaces()
+                    .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IIntegrationEventHandler<>))
+                    .GetGenericArguments()[0];
+
+                mt.AddConsumer(typeof(MassTransitIntegrationEventHandlerAdapter<>).MakeGenericType(eventType));
+            }
+
             mt.AddEntityFrameworkOutbox<EventsDbContext>(o =>
             {
-                o.UseSqlServer(); 
-                o.UseBusOutbox();
+                o.UseSqlServer();
+                o.UseBusOutbox(c =>
+                {
+                    // Uncomment the following lines to disable the delivery service if needed (for testing)
+                    //c.DisableDeliveryService();
+                });
 
-                // Uncomment the following lines to disable the delivery service if needed (for testing)
-                //o.UseBusOutbox(outboxConfig =>
-                //    {
-                //        outboxConfig.DisableDeliveryService();
-                //    });
-
-                o.DuplicateDetectionWindow = TimeSpan.FromMinutes(30);
-                o.QueryDelay = TimeSpan.FromSeconds(10);
+                o.DuplicateDetectionWindow = TimeSpan.FromMinutes(5);
+                o.QueryDelay = TimeSpan.FromSeconds(30);
             });
+
+
+            mt.SetKebabCaseEndpointNameFormatter();
 
             mt.UsingRabbitMq((context, conf) =>
             {

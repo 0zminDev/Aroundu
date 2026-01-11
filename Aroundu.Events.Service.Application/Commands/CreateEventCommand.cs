@@ -1,6 +1,6 @@
-﻿using Aroundu.Events.Service.Application.IntegrationEvents;
-using Aroundu.Events.Service.Application.Repositories;
+﻿using Aroundu.Events.Service.Application.Repositories;
 using Aroundu.Events.Service.Domain.Entity;
+using Aroundu.SharedKernel.IntegrationEvents;
 using Aroundu.SharedKernel.Interfaces;
 using MediatR;
 using System;

@@ -2,11 +2,16 @@ using Aspire.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var messaging = builder.AddRabbitMQ("messaging");
+var messaging = builder.AddRabbitMQ("messaging")
+    .WithManagementPlugin()
+    .WithContainerRuntimeArgs("--memory=256m");
 
 var password = builder.AddParameter("sql-password", secret: true);
 
 var sql = builder.AddSqlServer("sql-server", password)
+    .WithImage("azure-sql-edge")
+    .WithImageTag("latest")
+    .WithContainerRuntimeArgs("--memory=512m", "--cpus=1.0")
     .WithDataVolume()
     .WithLifetime(ContainerLifetime.Persistent)
     .WithEnvironment("ACCEPT_EULA", "Y");
