@@ -1,8 +1,5 @@
 ﻿using Aroundu.Events.Service.Domain.Entity;
 using Aroundu.SharedKernel.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Events.Service.Application.Repositories
 {

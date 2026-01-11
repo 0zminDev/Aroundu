@@ -1,9 +1,6 @@
 ﻿using Aroundu.SharedKernel.Interfaces;
 using Aroundu.SharedKernel.Interfaces.Busses;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Auth.Service.Infrastructure.Infrastructure.MediatR
 {

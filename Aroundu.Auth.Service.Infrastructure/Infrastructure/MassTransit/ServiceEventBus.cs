@@ -1,8 +1,5 @@
 ﻿using Aroundu.SharedKernel.Interfaces;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Auth.Service.Infrastructure.Infrastructure.MassTransit
 {

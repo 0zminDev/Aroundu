@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Aroundu.Events.Service.Domain.Entity
+﻿namespace Aroundu.Events.Service.Domain.Entity
 {
     public class Event
     {

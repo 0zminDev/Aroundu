@@ -1,9 +1,6 @@
 ﻿using Aroundu.SharedKernel.IntegrationEvents;
 using Aroundu.SharedKernel.Interfaces.Events;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Events.Service.Application.Consumers
 {

@@ -2,9 +2,6 @@
 using Aroundu.SharedKernel.Interfaces.Events;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Events.Service.Infrastructure.Infrastructure.MassTransit
 {

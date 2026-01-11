@@ -1,9 +1,6 @@
 ﻿using Aroundu.Auth.Service.Infrastructure.EFCore;
 using Aroundu.SharedKernel.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Auth.Service.Infrastructure.Infrastructure.EFCore
 {

@@ -4,7 +4,6 @@ using Aroundu.SharedKernel.Interfaces;
 using Aroundu.SharedKernel.Interfaces.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Aroundu.Events.Service.Api;
 
