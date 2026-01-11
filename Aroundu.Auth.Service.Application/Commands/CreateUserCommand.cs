@@ -1,4 +1,5 @@
 ﻿using Aroundu.Auth.Service.Application.IntegrationEvents;
+using Aroundu.Auth.Service.Application.Repositories;
 using Aroundu.Auth.Service.Domain.Entity;
 using Aroundu.Auth.Service.Domain.Services;
 using Aroundu.SharedKernel.Interfaces;

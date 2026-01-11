@@ -16,6 +16,5 @@ namespace Aroundu.Auth.Service.Application.IntegrationEvents
             Username = username;
             Email = email;
         }
-    {
     }
 }

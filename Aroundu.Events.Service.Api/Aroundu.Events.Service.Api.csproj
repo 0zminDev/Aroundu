@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Aroundu.Events.Service.Application\Aroundu.Events.Service.Application.csproj" />
     <ProjectReference Include="..\Aroundu.Events.Service.Infrastructure\Aroundu.Events.Service.Infrastructure.csproj" />
     <ProjectReference Include="..\Aroundu.Events.Service.SharedKernel\Aroundu.Events.Service.SharedKernel.csproj" />

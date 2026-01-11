@@ -41,7 +41,8 @@ public class Program
         builder.Services.Scan(scan => scan
             .FromAssemblies(
                 typeof(Aroundu.Auth.Service.Infrastructure.Scrutor.AssemblyMarker).Assembly,
-                typeof(Aroundu.Auth.Service.Application.Scrutor.AssemblyMarker).Assembly
+                typeof(Aroundu.Auth.Service.Application.Scrutor.AssemblyMarker).Assembly,
+                typeof(Aroundu.Auth.Service.Domain.Scrutor.AssemblyMarker).Assembly
             )
             .AddClasses(classes => classes.AssignableTo<IDependency>())
             .AsImplementedInterfaces()

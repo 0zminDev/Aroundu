@@ -26,7 +26,7 @@ var eventsService = builder.AddProject<Projects.Aroundu_Events_Service_Api>("aro
 
 var authService = builder.AddProject<Projects.Aroundu_Auth_Service_Api>("aroundu-auth-service-api")
     .WithReference(messaging)
-    .WithReference(eventsDb);
+    .WithReference(authDb);
 
 var gateway = builder.AddProject<Projects.Aroundu_Api_Gateway>("aroundu-api-gateway")
     .WithReference(messaging)
