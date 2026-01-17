@@ -22,7 +22,6 @@
     <ProjectReference Include="..\Aroundu.Api.Gateway\Aroundu.Api.Gateway.csproj" />
     <ProjectReference Include="..\Aroundu.Auth.Service.Api\Aroundu.Auth.Service.Api.csproj" />
     <ProjectReference Include="..\Aroundu.Events.Service.Api\Aroundu.Events.Service.Api.csproj" />
-    <ProjectReference Include="..\Aroundu.Events.Service.PerformanceTests\Aroundu.Events.Service.PerformanceTests.csproj" />
   </ItemGroup>
 
 </Project>

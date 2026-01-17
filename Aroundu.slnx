@@ -14,13 +14,12 @@
     <Project Path="Aroundu.Events.Service.SharedKernel/Aroundu.Events.Service.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/EventsService/Tests/">
-    <Project Path="Aroundu.Events.Service.IntegrationTests/Aroundu.Events.Service.IntegrationTests.csproj" Id="8a8f11b0-40be-456c-9f96-eef0d196005b" />
-    <Project Path="Aroundu.Events.Service.PerformanceTests/Aroundu.Events.Service.PerformanceTests.csproj" Id="faad74bc-6ed5-44ea-a9ac-a400f68691c0" />
     <Project Path="Aroundu.Events.Service.Specs/Aroundu.Events.Service.Specs.csproj" Id="41526599-8d73-4488-81b8-9e483d6d3462" />
     <Project Path="Aroundu.Events.Service.UnitTests/Aroundu.Events.Service.UnitTests.csproj" Id="4cb39802-f64c-4980-b9f1-c55b233e2718" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Aroundu.e2eTests/Aroundu.E2ETests.csproj" Id="08802b39-d901-4cf9-9ce0-77989a7ecc89" />
+    <Project Path="Aroundu.IntegrationTests/Aroundu.IntegrationTests.csproj" Id="923d05fa-118a-4c26-bb74-1afe9ebba39c" />
   </Folder>
   <Project Path="Aroundu.Api.Gateway/Aroundu.Api.Gateway.csproj" />
   <Project Path="Aroundu.AppHost/Aroundu.AppHost.csproj" />

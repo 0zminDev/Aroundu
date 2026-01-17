@@ -1,4 +1,5 @@
 using Aroundu.Events.Service.Infrastructure.EFCore;
+using Aroundu.Events.Service.Infrastructure.Infrastructure.ExeptionHandler;
 using Aroundu.Events.Service.Infrastructure.Infrastructure.MassTransit;
 using Aroundu.Events.Service.Infrastructure.Infrastructure.ValidationBehavior;
 using Aroundu.SharedKernel.Interfaces;
@@ -70,7 +71,7 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("events-db"), sqlOptions =>
             {
                 sqlOptions.EnableRetryOnFailure(
-                    maxRetryCount: 5,
+                    maxRetryCount: 10,
                     maxRetryDelay: TimeSpan.FromSeconds(10),
                     errorNumbersToAdd: null);
             });
@@ -81,6 +82,9 @@ public class Program
 
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
 
         var app = builder.Build();
 
@@ -107,6 +111,7 @@ public class Program
         }
 
         app.MapDefaultEndpoints();
+        app.UseExceptionHandler();
 
         if (app.Environment.IsDevelopment())
         {
