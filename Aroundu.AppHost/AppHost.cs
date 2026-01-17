@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var messaging = builder.AddRabbitMQ("messaging")
@@ -41,5 +43,14 @@ builder.AddNpmApp("angular-web", "../Aroundu.Web")
     .WithHttpsEndpoint(targetPort: 4200, name: "https")
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
+
+var runLoadTests = builder.Configuration.GetValue<bool>("RunLoadTests");
+
+if (runLoadTests)
+{
+    builder.AddProject<Projects.Aroundu_Events_Service_PerformanceTests>("aroundu-events-service-performance-tests")
+        .WithEnvironment("EVENTS_API_URL", eventsService.GetEndpoint("https"))
+        .WithReplicas(1);
+}
 
 builder.Build().Run();

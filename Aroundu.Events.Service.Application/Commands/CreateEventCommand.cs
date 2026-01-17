@@ -2,19 +2,15 @@
 using Aroundu.Events.Service.Domain.Entity;
 using Aroundu.SharedKernel.IntegrationEvents;
 using Aroundu.SharedKernel.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Events.Service.Application.Commands
 {
-    public class CreateEventCommand : ICommand<int>
+    public class CreateEventCommand : ICommand<Guid>
     {
         public string Name { get; set; }
     }
 
-    public class CreateEventCommandHandler : ICommandHandler<CreateEventCommand, int>
+    public class CreateEventCommandHandler : ICommandHandler<CreateEventCommand, Guid>
     {
         private readonly IEventRepository eventRepository;
         private readonly IServiceEventBus eventBus;
@@ -25,10 +21,11 @@ namespace Aroundu.Events.Service.Application.Commands
             this.eventBus = eventBus;
         }
 
-        public async Task<int> Handle(CreateEventCommand request, CancellationToken ct)
+        public async Task<Guid> Handle(CreateEventCommand request, CancellationToken ct)
         {
             var entity = new Event 
-            { 
+            {
+                PublicKey = Guid.NewGuid(),
                 Name = request.Name
             };
 
@@ -37,7 +34,7 @@ namespace Aroundu.Events.Service.Application.Commands
             await eventRepository.SaveAsync(ct);
 
 
-            return entity.Id;
+            return entity.PublicKey;
         }
     }
 }

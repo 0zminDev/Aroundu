@@ -1,5 +1,6 @@
 using Aroundu.Events.Service.Infrastructure.EFCore;
 using Aroundu.Events.Service.Infrastructure.Infrastructure.MassTransit;
+using Aroundu.Events.Service.Infrastructure.Infrastructure.ValidationBehavior;
 using Aroundu.SharedKernel.Interfaces;
 using Aroundu.SharedKernel.Interfaces.Events;
 using MassTransit;
@@ -39,7 +40,7 @@ public class Program
                 o.UseSqlServer();
                 o.UseBusOutbox(c =>
                 {
-                    // Uncomment the following lines to disable the delivery service if needed (for testing)
+                    // Uncomment the following line to disable the delivery service if needed (for testing)
                     //c.DisableDeliveryService();
                 });
 
@@ -77,6 +78,8 @@ public class Program
         builder.Services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly);
+
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
 
         var app = builder.Build();

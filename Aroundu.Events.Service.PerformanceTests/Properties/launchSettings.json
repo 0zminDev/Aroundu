@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Aroundu.Events.Service.PerformanceTests": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

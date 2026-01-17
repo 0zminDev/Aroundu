@@ -36,7 +36,7 @@ namespace Aroundu.Events.Service.Api.Controllers
         {
             var result = await commandBus.SendAsync(command);
 
-            return CreatedAtAction(nameof(Get), new { id = 1 }, result);
+            return CreatedAtAction(nameof(Get), new { publicKey = new Guid() }, result);
         }
     }
 }
