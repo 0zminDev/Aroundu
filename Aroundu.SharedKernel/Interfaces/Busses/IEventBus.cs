@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Aroundu.SharedKernel.Interfaces.Busses
+﻿namespace Aroundu.SharedKernel.Interfaces.Busses
 {
     public interface IEventBus : IDependency
     {

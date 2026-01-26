@@ -9,7 +9,7 @@ namespace Aroundu.Events.Service.Infrastructure.Queries
     {
         public EventQuery(EventsDbContext context) : base(context) {}
 
-        public async Task<int> GetEventCountAsync()
+        public async Task<int> GetEventsCountAsync()
         {
             return await QueryFor<Event>().CountAsync();
         }

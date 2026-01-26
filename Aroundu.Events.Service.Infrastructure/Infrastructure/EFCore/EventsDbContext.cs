@@ -1,10 +1,5 @@
-﻿using Aroundu.Events.Service.Domain.Entity;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Events.Service.Infrastructure.EFCore
 {

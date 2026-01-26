@@ -1,23 +1,20 @@
 ﻿using Aroundu.SharedKernel.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Events.Service.Infrastructure.EFCore
 {
     public abstract class BaseQuery : IQuery
     {
-        protected readonly EventsDbContext _context;
+        protected readonly EventsDbContext context;
 
         protected BaseQuery(EventsDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         protected IQueryable<T> QueryFor<T>() where T : class
         {
-            return _context.Set<T>().AsNoTracking();
+            return context.Set<T>().AsNoTracking();
         }
     }
 }
