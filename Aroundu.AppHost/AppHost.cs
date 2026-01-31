@@ -1,4 +1,5 @@
 using Aspire.Hosting.ApplicationModel;
+using Aspire.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -49,9 +50,9 @@ var gateway = builder.AddProject<Projects.Aroundu_Api_Gateway>("aroundu-api-gate
 
 if(!isTesting)
 {
-    builder.AddNpmApp("angular-web", "../Aroundu.Web")
+    builder.AddExecutable("angular-web", "npm", "../Aroundu.Web", "run", "start")
         .WithReference(gateway)
-        .WithHttpsEndpoint(targetPort: 4200, name: "https")
+        .WithHttpsEndpoint(port: 4200, targetPort: 4200, name: "https", isProxied: false)
         .WithExternalHttpEndpoints()
         .PublishAsDockerFile();
 }

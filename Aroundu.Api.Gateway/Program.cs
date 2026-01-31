@@ -24,7 +24,11 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddReverseProxy()
             .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
-            .AddServiceDiscoveryDestinationResolver();
+            .AddServiceDiscoveryDestinationResolver()
+            .ConfigureHttpClient((context, handler) =>
+            {
+                handler.SslOptions.RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+            });
 
         builder.Services.AddMassTransit(mt =>
         {

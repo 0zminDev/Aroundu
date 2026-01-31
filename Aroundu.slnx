@@ -14,8 +14,8 @@
     <Project Path="Aroundu.Events.Service.SharedKernel/Aroundu.Events.Service.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/EventsService/Tests/">
-    <Project Path="Aroundu.Events.Service.Specs/Aroundu.Events.Service.Specs.csproj" Id="41526599-8d73-4488-81b8-9e483d6d3462" />
-    <Project Path="Aroundu.Events.Service.UnitTests/Aroundu.Events.Service.UnitTests.csproj" Id="4cb39802-f64c-4980-b9f1-c55b233e2718" />
+    <Project Path="Aroundu.Events.Service.Specs/Aroundu.Events.Service.Specs.csproj" Id="15071086-a682-4d2b-a644-95e0c0be2315" />
+    <Project Path="Aroundu.Events.Service.UnitTests/Aroundu.Events.Service.UnitTests.csproj" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Aroundu.e2eTests/Aroundu.E2ETests.csproj" Id="08802b39-d901-4cf9-9ce0-77989a7ecc89" />
