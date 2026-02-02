@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+=======
+>>>>>>> origin/master
 var builder = DistributedApplication.CreateBuilder(args);
 
 var isTesting = builder.Environment.IsEnvironment("Testing");
@@ -14,6 +17,7 @@ var messaging = builder.AddRabbitMQ("messaging")
 
 var password = builder.AddParameter("sql-password", secret: true);
 
+<<<<<<< HEAD
 var sql = builder.AddSqlServer("sql-server", password)
     .WithImage("azure-sql-edge")
     .WithImageTag("latest")
@@ -31,23 +35,52 @@ if (!isTesting)
         endpoint.IsProxied = false;
     });
 }
+=======
+var sql = builder
+    .AddSqlServer("sql-server", password)
+    .WithDataVolume()
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithEnvironment("ACCEPT_EULA", "Y");
+
+sql.WithEndpoint(
+    "tcp",
+    endpoint =>
+    {
+        endpoint.Port = 14333;
+        endpoint.IsProxied = false;
+    }
+);
+>>>>>>> origin/master
 
 var eventsDb = sql.AddDatabase("events-db");
 var authDb = sql.AddDatabase("auth-db");
 
-var eventsService = builder.AddProject<Projects.Aroundu_Events_Service_Api>("aroundu-events-service-api")
+var eventsService = builder
+    .AddProject<Projects.Aroundu_Events_Service_Api>("aroundu-events-service-api")
     .WithReference(messaging)
-    .WithReference(eventsDb);
+    .WithEnvironment(
+        "ConnectionStrings__events-db",
+        ReferenceExpression.Create($"{eventsDb};Encrypt=False;TrustServerCertificate=True")
+    )
+    .WaitFor(eventsDb);
 
+<<<<<<< HEAD
 var authService = builder.AddProject<Projects.Aroundu_Auth_Service_Api>("aroundu-auth-service-api")
     .WithReference(messaging)
     .WithReference(authDb);
+=======
+var authService = builder
+    .AddProject<Projects.Aroundu_Auth_Service_Api>("aroundu-auth-service-api")
+    .WithReference(messaging);
+>>>>>>> origin/master
 
-var gateway = builder.AddProject<Projects.Aroundu_Api_Gateway>("aroundu-api-gateway")
+var gateway = builder
+    .AddProject<Projects.Aroundu_Api_Gateway>("aroundu-api-gateway")
     .WithReference(messaging)
     .WithReference(authService)
     .WithReference(eventsService);
 
+<<<<<<< HEAD
 if(!isTesting)
 {
     builder.AddExecutable("angular-web", "npm", "../Aroundu.Web", "run", "start")
@@ -56,6 +89,14 @@ if(!isTesting)
         .WithExternalHttpEndpoints()
         .PublishAsDockerFile();
 }
+=======
+builder
+    .AddNpmApp("angular-web", "../Aroundu.Web")
+    .WithReference(gateway)
+    .WithHttpsEndpoint(port: 4200, targetPort: 4200, name: "https", isProxied: false)
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
+>>>>>>> origin/master
 
 var app = builder.Build();
 

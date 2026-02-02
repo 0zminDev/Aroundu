@@ -3,7 +3,6 @@ using Aroundu.Events.Service.Infrastructure.Infrastructure.ExeptionHandler;
 using Aroundu.Events.Service.Infrastructure.Infrastructure.MassTransit;
 using Aroundu.Events.Service.Infrastructure.Infrastructure.ValidationBehavior;
 using Aroundu.SharedKernel.Interfaces;
-using Aroundu.SharedKernel.Interfaces.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,16 +38,21 @@ public class Program
             mt.AddEntityFrameworkOutbox<EventsDbContext>(o =>
             {
                 o.UseSqlServer();
+<<<<<<< HEAD
                 o.UseBusOutbox(c =>
                 {
                     // Uncomment the following line to disable the delivery service if needed (for testing)
                     //c.DisableDeliveryService();
                 });
+=======
+                o.UseBusOutbox();
+>>>>>>> origin/master
 
                 o.DuplicateDetectionWindow = TimeSpan.FromMinutes(5);
                 o.QueryDelay = TimeSpan.FromSeconds(30);
             });
 
+<<<<<<< HEAD
 
             mt.SetKebabCaseEndpointNameFormatter();
 
@@ -81,6 +85,32 @@ public class Program
             cfg.RegisterServicesFromAssembly(typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly);
 
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+=======
+            mt.UsingRabbitMq(
+                (context, conf) =>
+                {
+                    conf.Host(builder.Configuration.GetConnectionString("messaging"));
+                    conf.ConfigureEndpoints(context);
+                }
+            );
+        });
+        builder.Services.Scan(scan =>
+            scan.FromAssemblies(
+                    typeof(Aroundu.Events.Service.Infrastructure.Scrutor.AssemblyMarker).Assembly,
+                    typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly
+                )
+                .AddClasses(classes => classes.AssignableTo<IDependency>())
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+        );
+
+        builder.AddSqlServerDbContext<EventsDbContext>("events-db");
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(
+                typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly
+            );
+>>>>>>> origin/master
         });
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
