@@ -19,7 +19,7 @@ public class Program
         {
             mt.AddEntityFrameworkOutbox<EventsDbContext>(o =>
             {
-                o.UseSqlServer(); 
+                o.UseSqlServer();
                 o.UseBusOutbox();
 
                 // Uncomment the following lines to disable the delivery service if needed (for testing)
@@ -32,24 +32,30 @@ public class Program
                 o.QueryDelay = TimeSpan.FromSeconds(10);
             });
 
-            mt.UsingRabbitMq((context, conf) =>
-            {
-                conf.Host(builder.Configuration.GetConnectionString("messaging"));
-                conf.ConfigureEndpoints(context);
-            });
+            mt.UsingRabbitMq(
+                (context, conf) =>
+                {
+                    conf.Host(builder.Configuration.GetConnectionString("messaging"));
+                    conf.ConfigureEndpoints(context);
+                }
+            );
         });
-        builder.Services.Scan(scan => scan
-            .FromAssemblies(
-                typeof(Aroundu.Events.Service.Infrastructure.Scrutor.AssemblyMarker).Assembly,
-                typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly
-            )
-            .AddClasses(classes => classes.AssignableTo<IDependency>())
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+        builder.Services.Scan(scan =>
+            scan.FromAssemblies(
+                    typeof(Aroundu.Events.Service.Infrastructure.Scrutor.AssemblyMarker).Assembly,
+                    typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly
+                )
+                .AddClasses(classes => classes.AssignableTo<IDependency>())
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+        );
+
         builder.AddSqlServerDbContext<EventsDbContext>("events-db");
         builder.Services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly);
+            cfg.RegisterServicesFromAssembly(
+                typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly
+            );
         });
 
         var app = builder.Build();
