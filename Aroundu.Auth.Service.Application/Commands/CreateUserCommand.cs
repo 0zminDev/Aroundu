@@ -8,9 +8,9 @@ namespace Aroundu.Auth.Service.Application.Commands
 {
     public class CreateUserCommand : ICommand<Guid>
     {
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public required string Username { get; set; }
+        public required string Email { get; set; }
+        public required string Password { get; set; }
     }
 
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Guid>
@@ -19,23 +19,31 @@ namespace Aroundu.Auth.Service.Application.Commands
         private readonly IServiceEventBus eventBus;
         private readonly IPasswordHasher passwordHasher;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IServiceEventBus eventBus, IPasswordHasher passwordHasher)
+        public CreateUserCommandHandler(
+            IUserRepository userRepository,
+            IServiceEventBus eventBus,
+            IPasswordHasher passwordHasher
+        )
         {
             this.userRepository = userRepository;
             this.eventBus = eventBus;
             this.passwordHasher = passwordHasher;
         }
+
         public async Task<Guid> Handle(CreateUserCommand request, CancellationToken ct)
         {
             var entity = new User
             {
                 Username = request.Username,
                 Email = request.Email,
-                PasswordHash = this.passwordHasher.HashPassword(request.Password)
+                PasswordHash = this.passwordHasher.HashPassword(request.Password),
             };
 
             await userRepository.AddAsync(entity);
-            await eventBus.PublishAsync(new UserCreatedEvent(entity.PublicKey, entity.Username, entity.Email), ct);
+            await eventBus.PublishAsync(
+                new UserCreatedEvent(entity.PublicKey, entity.Username, entity.Email),
+                ct
+            );
             await userRepository.SaveAsync(ct);
 
             return entity.PublicKey;

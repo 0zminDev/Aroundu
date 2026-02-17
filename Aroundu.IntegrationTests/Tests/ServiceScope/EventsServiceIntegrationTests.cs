@@ -1,16 +1,14 @@
-﻿using Aroundu.Events.Service.Application.Commands;
+﻿using System.Net.Http.Json;
+using Aroundu.Events.Service.Application.Commands;
 using Aroundu.IntegrationTests.CollectionFixture;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Net.Http.Json;
-using System.Text;
 
 namespace Aroundu.IntegrationTests.Tests.ServiceScope
 {
     public class EventsServiceIntegrationTests : BaseIntegrationTest
     {
-        public EventsServiceIntegrationTests(ApplicationTestingFactory factory) : base(factory) { }
+        public EventsServiceIntegrationTests(ApplicationTestingFactory factory)
+            : base(factory) { }
 
         private record EventCountResponse(int EventCount);
 
@@ -28,7 +26,7 @@ namespace Aroundu.IntegrationTests.Tests.ServiceScope
 
             var countResponse = await Client.GetAsync("/api/events/count");
             var content = await countResponse.Content.ReadFromJsonAsync<EventCountResponse>();
-
+            content.ShouldNotBeNull();
             ((int)content.EventCount).ShouldBe(1);
         }
 

@@ -6,9 +6,10 @@ namespace Aroundu.Auth.Service.Infrastructure.EFCore
 {
     public class AuthDbContext : DbContext
     {
-        public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options) { }
+        public AuthDbContext(DbContextOptions<AuthDbContext> options)
+            : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        public required DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

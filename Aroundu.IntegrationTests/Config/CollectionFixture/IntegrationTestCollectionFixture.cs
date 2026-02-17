@@ -1,7 +1,4 @@
 ﻿using Aroundu.IntegrationTests.Respawn;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.IntegrationTests.CollectionFixture
 {

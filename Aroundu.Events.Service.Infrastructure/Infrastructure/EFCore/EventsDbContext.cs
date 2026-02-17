@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Aroundu.Events.Service.Infrastructure.EFCore
 {
-    public class EventsDbContext : DbContext
+    public class EventsDbContext(DbContextOptions<EventsDbContext> options) : DbContext(options)
     {
-        public EventsDbContext(DbContextOptions<EventsDbContext> options) : base(options) { }
-
-        public DbSet<Aroundu.Events.Service.Domain.Entity.Event> Events { get; set; }
+        public required DbSet<Aroundu.Events.Service.Domain.Entity.Event> Events { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,7 +1,7 @@
-﻿using Aroundu.Events.Service.Application.Queries;
-using Microsoft.AspNetCore.Mvc;
-using Aroundu.Events.Service.Application.Commands;
+﻿using Aroundu.Events.Service.Application.Commands;
+using Aroundu.Events.Service.Application.Queries;
 using Aroundu.SharedKernel.Interfaces.Busses;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Aroundu.Events.Service.Api.Controllers
 {

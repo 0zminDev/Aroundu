@@ -8,7 +8,8 @@ namespace Aroundu.Auth.Service.Infrastructure.Implementation.Queries
 {
     public class UserQuery : BaseQuery, IUserQuery
     {
-        public UserQuery(AuthDbContext context) : base(context) {}
+        public UserQuery(AuthDbContext context)
+            : base(context) { }
 
         public async Task<int> GetUsersCountAsync()
         {

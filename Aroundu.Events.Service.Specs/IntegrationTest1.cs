@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Logging;
-
 namespace Aroundu.Events.Service.Specs.Tests;
 
 public class IntegrationTest1

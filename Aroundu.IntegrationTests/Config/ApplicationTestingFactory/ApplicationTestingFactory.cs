@@ -16,7 +16,8 @@ namespace Aroundu.IntegrationTests
 
         public async ValueTask InitializeAsync()
         {
-            var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.Aroundu_AppHost>();
+            var appHost =
+                await DistributedApplicationTestingBuilder.CreateAsync<Projects.Aroundu_AppHost>();
 
             appHost.Environment.EnvironmentName = "Testing";
 
@@ -40,37 +41,47 @@ namespace Aroundu.IntegrationTests
             await MigrateDatabase<AuthDbContext>(authCs);
         }
 
-        private async Task MigrateDatabase<TContext>(string connectionString) where TContext : DbContext
+        private async Task MigrateDatabase<TContext>(string connectionString)
+            where TContext : DbContext
         {
             var optionsBuilder = new DbContextOptionsBuilder<TContext>();
-            optionsBuilder.UseSqlServer(connectionString, sqlOptions =>
-            {
-                sqlOptions.EnableRetryOnFailure();
-            });
+            optionsBuilder.UseSqlServer(
+                connectionString,
+                sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure();
+                }
+            );
 
-            using var context = (TContext)Activator.CreateInstance(typeof(TContext), optionsBuilder.Options)!;
+            using var context = (TContext)
+                Activator.CreateInstance(typeof(TContext), optionsBuilder.Options)!;
             var pipeline = CreateRetryPipeline();
-            await pipeline.ExecuteAsync(async (ct) =>
-            {
-                await context.Database.MigrateAsync(ct);
-            });
+            await pipeline.ExecuteAsync(
+                async (ct) =>
+                {
+                    await context.Database.MigrateAsync(ct);
+                }
+            );
         }
 
-        public async Task<string> GetConnectionString(string dbResourceName) => await App.GetConnectionStringAsync(dbResourceName);
+        public async Task<string> GetConnectionString(string dbResourceName) =>
+            await App.GetConnectionStringAsync(dbResourceName) ?? "";
 
         private ResiliencePipeline CreateRetryPipeline()
         {
             return new ResiliencePipelineBuilder()
-                .AddRetry(new RetryStrategyOptions
-                {
-                    ShouldHandle = new PredicateBuilder()
-                        .Handle<SqlException>()
-                        .Handle<InvalidOperationException>(),
-                    BackoffType = DelayBackoffType.Exponential,
-                    UseJitter = true,
-                    MaxRetryAttempts = 5,
-                    Delay = TimeSpan.FromSeconds(2)
-                })
+                .AddRetry(
+                    new RetryStrategyOptions
+                    {
+                        ShouldHandle = new PredicateBuilder()
+                            .Handle<SqlException>()
+                            .Handle<InvalidOperationException>(),
+                        BackoffType = DelayBackoffType.Exponential,
+                        UseJitter = true,
+                        MaxRetryAttempts = 5,
+                        Delay = TimeSpan.FromSeconds(2),
+                    }
+                )
                 .Build();
         }
 
@@ -86,19 +97,18 @@ namespace Aroundu.IntegrationTests
                 {
                     await App.StopAsync(cts.Token);
                 }
-                catch (Exception)
-                {
-                    
-                }
+                catch (Exception) { }
                 finally
                 {
-                    await Task.Run(async () => {
-                        try
+                    await Task.Run(async () =>
                         {
-                            await App.DisposeAsync();
-                        }
-                        catch {  }
-                    }).WaitAsync(TimeSpan.FromSeconds(5));
+                            try
+                            {
+                                await App.DisposeAsync();
+                            }
+                            catch { }
+                        })
+                        .WaitAsync(TimeSpan.FromSeconds(5));
                 }
             }
         }

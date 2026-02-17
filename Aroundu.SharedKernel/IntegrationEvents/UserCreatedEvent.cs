@@ -1,14 +1,17 @@
-﻿using Aroundu.SharedKernel.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+using Aroundu.SharedKernel.Interfaces;
 
 namespace Aroundu.SharedKernel.IntegrationEvents
 {
     public class UserCreatedEvent : IIntegrationEvent
     {
-        public Guid UserId { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
+        public required Guid UserId { get; set; }
+        public required string Username { get; set; }
+        public required string Email { get; set; }
 
         public UserCreatedEvent() { }
+        
+        [SetsRequiredMembers]
         public UserCreatedEvent(Guid userId, string username, string email)
         {
             UserId = userId;

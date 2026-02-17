@@ -13,7 +13,8 @@ namespace Aroundu.Auth.Service.Infrastructure.Infrastructure.EFCore
             this.context = context;
         }
 
-        protected IQueryable<T> QueryFor<T>() where T : class
+        protected IQueryable<T> QueryFor<T>()
+            where T : class
         {
             return context.Set<T>().AsNoTracking();
         }
