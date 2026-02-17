@@ -1,5 +1,9 @@
 using Aroundu.Events.Service.Infrastructure.EFCore;
+using Aroundu.Events.Service.Infrastructure.Infrastructure.ExeptionHandler;
+using Aroundu.Events.Service.Infrastructure.Infrastructure.MassTransit;
+using Aroundu.Events.Service.Infrastructure.Infrastructure.ValidationBehavior;
 using Aroundu.SharedKernel.Interfaces;
+using Aroundu.SharedKernel.Interfaces.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,20 +21,50 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddMassTransit(mt =>
         {
+            var appAssembly =
+                typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly;
+
+            var handlerTypes = appAssembly
+                .GetTypes()
+                .Where(t =>
+                    t.GetInterfaces()
+                        .Any(i =>
+                            i.IsGenericType
+                            && i.GetGenericTypeDefinition() == typeof(IIntegrationEventHandler<>)
+                        )
+                )
+                .ToList();
+
+            foreach (var handlerType in handlerTypes)
+            {
+                var eventType = handlerType
+                    .GetInterfaces()
+                    .First(i =>
+                        i.IsGenericType
+                        && i.GetGenericTypeDefinition() == typeof(IIntegrationEventHandler<>)
+                    )
+                    .GetGenericArguments()[0];
+
+                mt.AddConsumer(
+                    typeof(MassTransitIntegrationEventHandlerAdapter<>).MakeGenericType(eventType)
+                );
+            }
+
             mt.AddEntityFrameworkOutbox<EventsDbContext>(o =>
             {
                 o.UseSqlServer();
+                o.UseBusOutbox(c =>
+                {
+                    // Uncomment the following line to disable the delivery service if needed (for testing)
+                    //c.DisableDeliveryService();
+                });
                 o.UseBusOutbox();
 
-                // Uncomment the following lines to disable the delivery service if needed (for testing)
-                //o.UseBusOutbox(outboxConfig =>
-                //    {
-                //        outboxConfig.DisableDeliveryService();
-                //    });
-
-                o.DuplicateDetectionWindow = TimeSpan.FromMinutes(30);
-                o.QueryDelay = TimeSpan.FromSeconds(10);
+                o.DuplicateDetectionWindow = TimeSpan.FromMinutes(5);
+                o.QueryDelay = TimeSpan.FromSeconds(30);
             });
+
+            mt.SetKebabCaseEndpointNameFormatter();
 
             mt.UsingRabbitMq(
                 (context, conf) =>
@@ -49,14 +83,43 @@ public class Program
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
         );
-
-        builder.AddSqlServerDbContext<EventsDbContext>("events-db");
+        builder.AddSqlServerDbContext<EventsDbContext>(
+            "events-db",
+            configureDbContextOptions: options =>
+            {
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("events-db"),
+                    sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(10),
+                            errorNumbersToAdd: null
+                        );
+                    }
+                );
+            }
+        );
         builder.Services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(
                 typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly
             );
+
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+        builder.Services.Scan(scan =>
+            scan.FromAssemblies(
+                    typeof(Aroundu.Events.Service.Infrastructure.Scrutor.AssemblyMarker).Assembly,
+                    typeof(Aroundu.Events.Service.Application.Scrutor.AssemblyMarker).Assembly
+                )
+                .AddClasses(classes => classes.AssignableTo<IDependency>())
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+        );
+
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
 
         var app = builder.Build();
 
@@ -66,6 +129,16 @@ public class Program
             {
                 var context = scope.ServiceProvider.GetRequiredService<EventsDbContext>();
                 context.Database.Migrate();
+                try
+                {
+                    context.Database.ExecuteSqlRaw(
+                        "ALTER DATABASE [events-db] SET READ_COMMITTED_SNAPSHOT ON WITH ROLLBACK IMMEDIATE"
+                    );
+                }
+                catch (Exception)
+                {
+                    // NOTE: Ignore if already enabled
+                }
             }
             catch (Exception ex)
             {
@@ -74,6 +147,7 @@ public class Program
         }
 
         app.MapDefaultEndpoints();
+        app.UseExceptionHandler();
 
         if (app.Environment.IsDevelopment())
         {

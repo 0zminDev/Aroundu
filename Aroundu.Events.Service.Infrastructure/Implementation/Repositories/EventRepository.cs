@@ -2,9 +2,6 @@
 using Aroundu.Events.Service.Domain.Entity;
 using Aroundu.Events.Service.Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aroundu.Events.Service.Infrastructure.Repositories
 {

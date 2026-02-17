@@ -5,7 +5,6 @@
     <Project Path="Aroundu.Auth.Service.Domain/Aroundu.Auth.Service.Domain.csproj" />
     <Project Path="Aroundu.Auth.Service.Infrastructure/Aroundu.Auth.Service.Infrastructure.csproj" />
     <Project Path="Aroundu.Auth.Service.SharedKernel/Aroundu.Auth.Service.SharedKernel.csproj" />
-    <Project Path="Aroundu.Auth.Service.Tests/Aroundu.Auth.Service.Tests.csproj" />
   </Folder>
   <Folder Name="/EventsService/">
     <Project Path="Aroundu.Events.Service.Api/Aroundu.Events.Service.Api.csproj" />
@@ -13,7 +12,14 @@
     <Project Path="Aroundu.Events.Service.Domain/Aroundu.Events.Service.Domain.csproj" />
     <Project Path="Aroundu.Events.Service.Infrastructure/Aroundu.Events.Service.Infrastructure.csproj" />
     <Project Path="Aroundu.Events.Service.SharedKernel/Aroundu.Events.Service.SharedKernel.csproj" />
-    <Project Path="Aroundu.Events.Service.Tests/Aroundu.Events.Service.Tests.csproj" />
+  </Folder>
+  <Folder Name="/EventsService/Tests/">
+    <Project Path="Aroundu.Events.Service.Specs/Aroundu.Events.Service.Specs.csproj" Id="15071086-a682-4d2b-a644-95e0c0be2315" />
+    <Project Path="Aroundu.Events.Service.UnitTests/Aroundu.Events.Service.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Aroundu.E2ETests/Aroundu.E2ETests.csproj" Id="08802b39-d901-4cf9-9ce0-77989a7ecc89" />
+    <Project Path="Aroundu.IntegrationTests/Aroundu.IntegrationTests.csproj" Id="923d05fa-118a-4c26-bb74-1afe9ebba39c" />
   </Folder>
   <Project Path="Aroundu.Api.Gateway/Aroundu.Api.Gateway.csproj" />
   <Project Path="Aroundu.AppHost/Aroundu.AppHost.csproj" />

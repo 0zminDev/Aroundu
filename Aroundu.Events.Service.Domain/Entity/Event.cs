@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Aroundu.Events.Service.Domain.Entity
+﻿namespace Aroundu.Events.Service.Domain.Entity
 {
     public class Event
     {
+        public Guid PublicKey { get; set; }
         public int Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
     }
 }

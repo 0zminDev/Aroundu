@@ -24,7 +24,11 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddReverseProxy()
             .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
-            .AddServiceDiscoveryDestinationResolver();
+            .AddServiceDiscoveryDestinationResolver()
+            .ConfigureHttpClient((context, handler) =>
+            {
+                handler.SslOptions.RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+            });
 
         builder.Services.AddMassTransit(mt =>
         {
@@ -46,6 +50,7 @@ public class Program
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gateway API");
                 c.SwaggerEndpoint("/swagger-events/swagger/v1/swagger.json", "Events Service");
+                c.SwaggerEndpoint("/swagger-auth/swagger/v1/swagger.json", "Auth Service");
             });
         }
 
