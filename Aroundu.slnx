@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Aroundu.AppHost/Aroundu.AppHost.csproj" />
+  <Project Path="Aroundu.ServiceDefaults/Aroundu.ServiceDefaults.csproj" />
+</Solution>
