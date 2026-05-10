@@ -1,5 +1,5 @@
 {
   "appHost": {
-    "path": "Aroundu.AppHost/Aroundu.AppHost.csproj"
+    "path": "AppHost/AppHost.csproj"
   }
 }

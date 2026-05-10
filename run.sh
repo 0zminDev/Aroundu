@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet run --project Aroundu.AppHost
+dotnet run --project AppHost
