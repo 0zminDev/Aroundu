@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/AuthService/Api/">
+    <Project Path="AuthService/Api/AuthService.Api.csproj" />
+  </Folder>
+
+
   <Project Path="AppHost/AppHost.csproj" />
   <Project Path="ServiceDefaults/ServiceDefaults.csproj" />
 </Solution>
