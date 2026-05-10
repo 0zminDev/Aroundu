@@ -1,0 +1,6 @@
+@Aroundu.Auth.Service.Api_HostAddress = http://localhost:5148
+
+GET {{Aroundu.Auth.Service.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
