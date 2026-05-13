@@ -1,10 +1,25 @@
 <Project Sdk="Aspire.AppHost.Sdk/13.3.0">
 
+  <ItemGroup>
+    <ProjectReference Include="..\Aroundu.ApiGateway\Aroundu.ApiGateway.csproj" />
+    <ProjectReference Include="..\Aroundu.SharedKernel\Aroundu.SharedKernel.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Api\Aroundu.Auth.Service.Api.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Application\Aroundu.Auth.Service.Application.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.CompositionRoot\Aroundu.Auth.Service.CompositionRoot.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Contracts\Aroundu.Auth.Service.Contracts.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Domain\Aroundu.Auth.Service.Domain.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Infrastructure\Aroundu.Auth.Service.Infrastructure.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.MigrationWorker\Aroundu.Auth.Service.MigrationWorker.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Persistent\Aroundu.Auth.Service.Persistent.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.ServiceWorker\Aroundu.Auth.Service.ServiceWorker.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.SharedKernel\Aroundu.Auth.Service.SharedKernel.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Tests\Aroundu.Auth.Service.e2e\Aroundu.Auth.Service.e2e.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Tests\Aroundu.Auth.Service.Integration\Aroundu.Auth.Service.Integration.csproj" />
+    <ProjectReference Include="..\Aroundu.Auth.Serivce\Aroundu.Auth.Service.Tests\Aroundu.Auth.Service.Unit\Aroundu.Auth.Service.Unit.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <UserSecretsId>03d0582a-bdf7-4d0b-a40d-bce03977801b</UserSecretsId>
   </PropertyGroup>
 
