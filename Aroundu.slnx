@@ -1,4 +1,23 @@
 <Solution>
+  <Folder Name="/Aroundu.Auth.Serivce/">
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Api/Aroundu.Auth.Service.Api.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Application/Aroundu.Auth.Service.Application.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.CompositionRoot/Aroundu.Auth.Service.CompositionRoot.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Contracts/Aroundu.Auth.Service.Contracts.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Domain/Aroundu.Auth.Service.Domain.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Infrastructure/Aroundu.Auth.Service.Infrastructure.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.MigrationWorker/Aroundu.Auth.Service.MigrationWorker.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Persistent/Aroundu.Auth.Service.Persistent.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.ServiceWorker/Aroundu.Auth.Service.ServiceWorker.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.SharedKernel/Aroundu.Auth.Service.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/Aroundu.Auth.Serivce/Aroundu.Auth.Service.Tests/">
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Tests/Aroundu.Auth.Service.e2e/Aroundu.Auth.Service.e2e.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Tests/Aroundu.Auth.Service.Integration/Aroundu.Auth.Service.Integration.csproj" />
+    <Project Path="Aroundu.Auth.Serivce/Aroundu.Auth.Service.Tests/Aroundu.Auth.Service.Unit/Aroundu.Auth.Service.Unit.csproj" />
+  </Folder>
+  <Project Path="Aroundu.ApiGateway/Aroundu.ApiGateway.csproj" />
   <Project Path="Aroundu.AppHost/Aroundu.AppHost.csproj" />
   <Project Path="Aroundu.ServiceDefaults/Aroundu.ServiceDefaults.csproj" />
+  <Project Path="Aroundu.SharedKernel/Aroundu.SharedKernel.csproj" />
 </Solution>
